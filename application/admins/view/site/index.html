@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>网站设置</title>
+	<link rel="stylesheet" type="text/css" href="/static/plugins/layui/css/layui.css">
+	<script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
+	<style type="text/css">
+		.header span{background: #009688;margin-left: 40px;padding: 10px;color: #fff;}
+		.header div{border-bottom: solid 1px #009688;margin-top: 9px;margin-left: 15px;}
+
+	</style>
+</head>
+<body style="padding: 40px;">
+	<div class="header">
+		<span>网站设置</span>
+		<!-- <button class="layui-btn layui-btn-sm" onclick="add()">添加</button> -->
+		<div></div>
+	</div>
+
+	<form class="layui-form" style="margin-top: 20px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">当前IP:</label>
+			<span class="layui-form-label layui-label-danger">{$ip}</span>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">当前域名:</label>
+			<span class="layui-form-label">{$domain}</span>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站名称</label>
+			<div class="layui-input-inline">
+				<input type="text" id="names" class="layui-input" value="{$site.values}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站描述</label>
+			<div class="layui-input-inline">
+				<input type="text" id="description" class="layui-input" value="{$site.description}">
+			</div>
+		</div>
+	</form>
+	<button class="layui-btn" style="margin-left: 40px;" onclick="doSave()">保存</button>
+	<script type="text/javascript">
+		layui.use(['layer'],function(){
+			$ =layui.jquery;
+			layer =layui.layer;
+			form =layui.form ;
+		});
+		function doSave(){
+			var title =$.trim($('#names').val());
+			var description =$.trim($('#description').val());
+			if(title==''){
+				layer.msg('网站名称不能为空',{'icon':2});
+				return;
+			}
+			if(description ==''){
+				layer.msg('网站描述不能为空',{'icon':2});
+				return;
+			}
+			$.post('/admins.php/admins/Site/save',{'title':title,'description':description},function(res){
+				if(res.code>0){
+					layer.msg(res.msg,{'icon':2});
+				}else{
+					layer.msg(res.msg,{'icon':1});
+					setTimeout(function(){window.location.reload();},1000);
+				}
+			},'json');
+
+		}
+	</script>
+</body>
+</html>

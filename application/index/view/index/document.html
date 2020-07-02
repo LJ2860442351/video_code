@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文件</title>
+    <meta name="description" content="云教室-在线的学习平台"/>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="MobileOptimized" content="320"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://staff.bootcss.com/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://staff.bootcss.com/npm/handlebars@3.0.3/dist/handlebars.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        function imgLoaded(img) {
+            var imgWrapper = img.parentNode;
+            imgWrapper.className += imgWrapper.className ? ' loaded' : 'loaded';
+        }
+    </script>
+    <link rel="canonical" href="http://www.youzhan.org/"/>
+    <link rel="next" href="http://www.youzhan.org/page/2/"/>
+    <meta name="generator" content="Ghost 0.6"/>
+    <link rel="alternate" type="application/rss+xml" title="云教室-在线的学习平台"/>
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="/assets/ico/apple-touch-icon-144-precomposed.png?v=9e0a081675">
+    <link rel="shortcut icon" href="/assets/ico/favicon.png?v=9e0a081675">
+	<style type="text/css">
+	   .header {
+            background: #222;
+            background-repeat: no-repeat;
+            background-position: center 0;
+            -webkit-background-size: cover;
+            background-size: cover;
+            padding: 200px 0 0;
+            text-align: center;
+            min-height: 500px;
+            position: relative;
+            margin-top: 60px;
+
+        }
+        a{
+            text-decoration: none;
+        }
+        .logotxt a {
+            font-weight: 700;
+            color: #fff;
+            font-size: 64px;
+            text-decoration: none;
+        }
+
+        .pagination {
+            position: relative;
+            left: 88%;
+        }
+
+        .navbar {
+            background: #2F4056;
+            color: white;
+        }
+
+        .navbar-default .navbar-nav li a {
+            color: white;
+        }
+        .navbar-default .navbar-nav .open a:focus, .navbar-default .navbar-nav .open a:hover{
+            color: #555;
+            background-color: #e7e7e7;
+        }
+        .active {
+            color: white;
+            background-color: #2F4056;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            background:  #2F4056;
+        }
+        #post-list{
+            margin-top: 20px;
+        }
+        #video{
+            margin-top: 20px;
+        }
+        .nav_label{
+        	height:200px;
+        	width: 1200px;
+        	margin:80px auto;
+ 			border: 1px solid rgb(227, 227, 227);
+ 			padding: 10px 30px;
+ 			border-radius: 10px;
+        }
+		.filter-list{
+            width: 120px;
+            height: 40px;
+            text-align: center;
+            padding: 10px;
+            margin-left: 20px;
+            margin-top: 20px;
+            float: left;
+            background: #dafbb7;
+            border-radius: 10px;
+            color: #3c763d;
+        }
+       
+       
+        .filter-tag{
+        	padding: 5px 30px;background: #337ab7;border-radius: 15px;width: 100px;
+            color: white;margin-bottom: 20px
+        }
+        .filter-list a{
+        	color: black;
+        	text-decoration: none;
+        }
+        .filter-list a:hover{text-decoration:none}
+	</style>
+</head>
+<body class="home-template">
+<!--导航-->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">菜单</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index.php/index/index.html" style="color: white;">{$site.values}</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav layui-nav-child layui-anim">
+                <li class="active"><a href="/">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="/index.php/index/Index/ppt">PPT</a></li>
+                <li><a href="/index.php/index/Index/videos">教学视频</a></li>
+                <li><a href="/index.php/index/Index/document">文档</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">下载 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/index.php/index/Index/ppt">PPT</a></li>
+                        <li><a href="/index.php/index/Index/videos">教学视频</a></li>
+                        <li><a href="/index.php/index/Index/document">文档</a></li>
+                        <li><a href="/index.php/index/Index/tags">更多</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="输入您要查找的资料">
+                </div>
+                <button type="submit" class="btn btn-default" style="color: #c3bbbb;">搜索</button>
+            </form>
+            
+             <button type="button" class="btn btn-default" style="margin: 8px 40px;" data-container="body" data-toggle="popover" data-placement="right" data-content="登录时间：{$user.username? $time:' '}"  title="用户名：{$user.username}">
+                {$user.username ? '个人信息': '暂无信息'}
+                </button>
+            <ul class="nav navbar-nav navbar-right">                    
+                <li><a style="margin-right: 40px;">{$user.username ? '欢迎您：'.$user.username: '未登录'}</a></li>
+                <li><a href="index.php/index/Index/login">登录</a></li>
+<!--                 <li><a href="#">上传资源</a></li>
+ -->                <li><a href="./doexit" onclick="doexit()">退出</a></li>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<!-- 导航标签 -->
+ <div class="nav_label">
+    <div >
+    	
+        <div  class="filter-tag">类型</div>
+         <div class="filter-list fl" style="cursor: pointer;"onclick="onclickChange(this)" onmousemove="onmousemoveChange(this)"><a href="/index.php/index/Index/tags">全部</a></div>
+         <div class="filter-list fl" style="cursor: pointer; "onclick="onclickChange(this)" onmousemove="onmousemoveChange(this)" ><a href="/index.php/index/Index/videos">教学视频</a></div>
+         <div class="filter-list fl" style="cursor: pointer; "onclick="onclickChange(this)" onmousemove="onmousemoveChange(this)" ><a href="/index.php/index/Index/ppt">PPT</a></div>
+         <div class="filter-list fl" style="cursor: pointer;background: #a7f551;"onclick="onclickChange(this)" onmousemove="onmousemoveChange(this)"><a href="/index.php/index/Index/document">文档</a></div>
+        </div>
+</div>
+<main class="main" role="main">
+    <div class="container">
+        <!-- 文档功能 -->
+            {volist name='data.document.lists' id='vo' length=4 offset=0}
+          <div class="col-xs-12 col-sm-6">
+                <article class="post tag-foreign-website tag-bootstrap-v3 tag-opensource-project">
+                    <h2 class="post-title">
+                        <a href="/index.php/index/Index/getDetail?id={$vo.id}" target="_blank">{$vo.title}</a>
+                    </h2>
+                    <div class="post-featured-image">
+                        <a class="thumbnail" href="/index.php/index/Index/getDetail?id={$vo.id}" target="_blank">
+                            <img src="{$vo.img}"
+                                 width="531" alt="" onload="imgLoaded(this)">
+                        </a>
+                    </div>
+                    <div class="post-content">
+                        <p>
+                            <a href="{$vo.url}">{$vo.title}</a>
+                            <span class="label label-success">{:isset($data['labels'][$vo['area_id']])?$data['labels'][$vo['area_id']]['title']:''}</span>
+                            <span class="label label-default" style="float: right;">{:date('Y-m-d H:i:s',$vo.add_time)}
+                            </span>
+                        </p>
+                    </div>
+                </article>
+            </div>
+
+            {/volist}
+        </div>
+    </div>
+           	
+ </div> 
+</body>
+<script type="text/javascript">
+	$(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+	//退出登录功能
+	function doexit(res){
+        // alert("退出成功");
+        alert("退出成功");
+        return window.location.href ='';
+    }
+</script>
+</html>

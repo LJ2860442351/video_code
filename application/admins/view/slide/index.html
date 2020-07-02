@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/static/plugins/layui/css/layui.css">
+	<script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
+	<style type="text/css">
+		.header span{background: #009688;margin-left: 30px;padding: 10px;color: #fff;}
+		.header div{border-bottom: solid 1px #009688;margin-top: 9px;margin-left: 15px;}
+		.header table .tr{text-align: center;}
+		.header button{margin-top: -2px;margin-right: 10px;}
+		.search-btn{margin-right: 20px;}
+	</style>
+</head>
+<body style="padding: 40px;">
+	<div class="header">
+		<span>文档列表</span>
+		<div class="layui-input-inline" style="border-style: none;">
+			<input type="text" class="layui-input" value="{$data.wd}" id="wd" placeholder="请输入文档标题搜索" style="padding: 10px;margin-bottom: 12px;width: 680px;"autocomplete="off">
+		</div>
+		<button class="layui-btn search-btn" onclick="searchs()"><i class="layui-icon" style="height: 28px;">&#xe615;</i>搜索</button>
+		<button class="layui-btn layui-btn-sl" onclick="add()" style="float: right;margin-top: 10px;">添加</button>
+		<div></div>
+	</div>
+		
+
+	<table class="layui-table" style="width: 102%;">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>PPT类型</th>
+				<th>VIP PPT</th>
+				<th>PPT来源</th>
+				<th>名称</th>
+				<th>点击量</th>
+				<th>评分</th>
+				<th>状态</th>
+				<th>添加时间</th>
+				<th style="text-align: center;">操作</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				{volist name='data.data.lists' id='vo'}
+				<td>{$vo.id}</td>
+				<td>{:isset($data['labels'][$vo['channel_id']])?$data['labels'][$vo['channel_id']]['title']:''}</td>
+				<td>{:isset($data['labels'][$vo['charge_id']])?$data['labels'][$vo['charge_id']]['title']:''}</td>
+				<td>{:isset($data['labels'][$vo['area_id']])?$data['labels'][$vo['area_id']]['title']:''}</td>
+				<td>{$vo.title}</td>
+				<td>{$vo.pv}</td>
+				<td>{$vo.score}</td>
+				<td>{$vo.status==0?'正常':'<span style="color: red;">禁用</span>'}</td>
+				<td>{:date('Y-m-d H:i:s',$vo.add_time)}</td>
+				<td style="text-align: center;">
+					<button class="layui-btn layui-btn-xs" onclick="add({$vo.id})">编辑</button>
+					<button class="layui-btn layui-btn-danger layui-btn-xs" onclick="del({$vo.id})">删除</button>
+				</td>
+			</tr>
+			{/volist}
+		</tbody>
+	</table>
+	<button class="layui-btn layui-btn-primary layui-btn-sm" onclick="history.go(-1)" style="margin-left: 68%;margin-top: 10px;"><<返回到首页</button>
+		<div id="pages" style="float: right;"></div>
+	<script type="text/javascript">
+		layui.use(['layer','laypage'],function () {
+			layer = layui.layer;
+			$ =layui.jquery;
+			laypage =layui.laypage;
+
+			laypage.render({
+			    elem: 'pages'
+			    ,count:{$data.data.total}
+			    ,limit:{$data.pageSize}
+			    ,curr:{$data.page}
+				,jump: function(obj, first){
+			    if(!first){
+			    	searchs(obj.curr);
+			    }
+			  }
+			});
+			$('input').keydown(function(e){
+				if(e.keyCode == 13){
+					searchs();
+				}
+			});
+
+		});
+
+		//添加视频
+		function add(id){
+			//捕获页
+			layer.open({
+			  type: 2,
+			  title: id>0?'编辑PPT':'添加PPT', //不显示标题
+			  shade:0.3,
+			  area:['850px','90%'],
+			  content: '/admins.php/admins/Slide/add?id='+id,
+			  cancel: function(){
+			    layer.msg('取消成功', {time: 1000, icon:6});
+			  }
+			});
+		}
+
+			// 删除
+		function del(id){
+			layer.confirm('确定要删除吗？', {
+			  btn: ['确定','取消']
+			}, function(){
+			  $.post('/admins.php/admins/Slide/delete',{'id':id},function(res){
+			  	if(res.code>0){
+			  		layer.alert(res.msg,{icon:2});
+			  	}else{
+			  		layer.msg(res.msg);
+			  		setTimeout(function(){window.location.reload();},1000);
+			  	}
+			  },'json');
+			});
+		}
+
+		// 搜索
+		function searchs(curpage){
+			var wd = $.trim($('#wd').val());
+			var url = "/admins.php/admins/Slide/index?page="+curpage;
+			if(wd){
+				url += '&wd='+wd;
+			}
+			window.location.href = url;
+		}
+
+	</script>
+</body>
+</html>

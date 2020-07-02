@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/static/plugins/layui/css/layui.css">
+	<script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
+	<style type="text/css">
+		.header span{background: #009688;margin-left: 40px;padding: 10px;color: #fff;}
+		.header div{border-bottom: solid 1px #009688;margin-top: 9px;margin-left: 15px;}
+		.header table .tr{text-align: center;}
+		.header button{float: right;margin-top: -2px;margin-right: 10px;}
+	</style>
+</head>
+<body style="padding: 40px;">
+	<div class="header">
+		<span>用户列表</span>
+		<button class="layui-btn layui-btn-sm" onclick="add()">添加</button>
+		<div></div>
+	</div>
+
+	<table class="layui-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>用户名</th>
+				<th>状态</th>
+				<th>添加时间</th>
+				<th style="text-align: center;">操作</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				{volist name='data.lists' id='vo'}
+				<td>{$vo.id}</td>
+				<td>{$vo.username}</td>
+				<td>{$vo.status==0?'正常':'<span style="color: red;">禁用</span>'}</td>
+				<td>{:date('Y-m-d H:i:s',$vo.add_time)}</td>
+				<td style="text-align: center;">
+					<button class="layui-btn layui-btn-xs" onclick="edit({$vo.id})">编辑</button>
+					<button class="layui-btn layui-btn-danger layui-btn-xs" onclick="del({$vo.id})">删除</button>
+				</td>
+			</tr>
+			{/volist}
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		layui.use(['layer'],function () {
+			layer = layui.layer;
+			$ =layui.jquery;
+		});
+
+		//添加管理员
+		function add(){
+			//捕获页
+			layer.open({
+			  type: 2,
+			  title: '添加用户', //不显示标题
+			  shade:0.3,
+			  area:['480px','90%'],
+			  content: '/admins.php/admins/User/add',
+			  cancel: function(){
+			    layer.msg('取消成功', {time: 1000, icon:6});
+			  }
+			});
+		}
+
+		function edit(id){
+			layer.open({
+			  type: 2,
+			  title: '编辑用户', //不显示标题
+			  shade:0.3,
+			  area:['480px','90%'],
+			  content: '/admins.php/admins/User/add?id='+id,
+			  cancel: function(){
+			    layer.msg('取消成功', {time: 1000, icon:6});
+			  }
+			});
+
+		}
+		function del(id){
+			layer.confirm('确定要删除吗？', {
+			  btn: ['确定','取消']
+			}, function(){
+			  $.post('/admins.php/admins/User/delete',{'id':id},function(res){
+			  	if(res.code>0){
+			  		layer.alert(res.msg,{icon:2});
+			  	}else{
+			  		layer.msg(res.msg);
+			  		setTimeout(function(){window.location.reload();},1000);
+			  	}
+			  },'json');
+			});
+		}
+
+
+	</script>
+</body>
+</html>

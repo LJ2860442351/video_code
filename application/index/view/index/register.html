@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用户注册</title>
+	<link rel="stylesheet" type="text/css" href="/static/plugins/layui/css/layui.css">
+	<script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
+</head>
+<body style="background: #2F4056;">
+	<div style="position: absolute;left: 50%;top: 50%;width: 500px;margin-left: -250px;margin-top: -200px;">
+		<div style="background:#ffffff;padding: 20px;border-radius: 4px;box-shadow:5px 5px 20px #4444;">
+			<div class="layui-form">
+				<div class="layui-form-item" style="color: gray;">
+					<h2>欢迎来到云教室</h2>
+					<hr>
+				<form class="layui-form">
+					<div class="layui-form-item">
+						<label class="layui-form-label">用户名</label>
+						<div class="layui-input-block">
+							<input type="text" id="username" class="layui-input" name="username">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">密&nbsp;&nbsp;码</label>
+						<div class="layui-input-block">
+							<input type="password" id="password" class="layui-input" name="password">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">确认密码</label>
+						<div class="layui-input-block">
+							<input type="password" id="repeatPassword" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">验证码</label>
+						<div class="layui-input-inline">
+							<input type="text" id="verifycode" class="layui-input" maxlength="4" name="verifycode">
+						</div>
+						<img src="{:captcha_src()}" onclick="reloadImg()" id="img">
+					</div>
+				</form>
+
+				<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn"  onclick="dologin()">去登录</button>
+							<button class="layui-btn"  onclick="register()">注册</button>
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		layui.use(['layer','form'],function(){
+			//调用layer的jquery库
+			$ =layui.jquery;
+			layer =layui.layer;
+
+			//用户名控件获得焦点
+			$('#username').focus();
+			//enter提交
+			$('input').keydown(function(e){
+				if(e.keyCode == 13){
+					login();
+				}
+			});
+		});
+		//重新生成验证码
+		function reloadImg(){
+			$('#img').attr('src','{:captcha_src()}?rand='+Math.random());
+		}
+		//去登录方法
+		function dologin(){
+			return window.location.href='login';
+		}
+
+		//注册方法
+		function register(){
+			var username =$.trim($('#username').val());
+			var password =$.trim($('#password').val());
+			var repeatPassword=$.trim($('#repeatPassword').val());
+			var verifycode =$.trim($('#verifycode').val());
+			if(username ==''){
+				layer.alert('请输入用户名',{icon:2});
+				return;
+			}
+			if(password ==''){
+				layer.alert('请输入密码',{icon:2});
+				return;
+			}
+			if(repeatPassword ==''){
+				layer.alert('请输入确认密码',{icon:2});
+				return;
+			}
+			if(password!==repeatPassword){
+				layer.alert('两次输入的密码不一致',{icon:2});
+				return;
+			}
+			if(verifycode ==''){
+				layer.alert('请输入验证码',{icon:2});
+				return;
+			}
+			$.post('/index.php/index/Index/doregister',$('form').serialize(),function(res){
+				if(res.code>0){
+					layer.alert(res.msg,{icon:2});
+				}else{
+					layer.msg(res.msg);
+					setTimeout(function(){history.go(-1);},1000);
+				}
+			},'json');
+		}
+		
+
+	</script>
+</body>
+</html>
